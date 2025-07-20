@@ -5,8 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "duradisp.refmap.json",
   "mixins": [
+    "MixinGTToolBarRenderer"
   ],
   "client": [
+    "MixinGuiGraphics"
   ],
   "injectors": {
     "defaultRequire": 1
