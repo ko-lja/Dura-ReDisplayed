@@ -1,6 +1,8 @@
 package lu.kolja.duradisp.mixins;
 
 import com.gregtechceu.gtceu.client.renderer.item.decorator.GTToolBarRenderer;
+import lu.kolja.duradisp.enums.DisplayState;
+import lu.kolja.duradisp.misc.KeyMappings;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +19,6 @@ public class MixinGTToolBarRenderer {
             cancellable = true
     )
     private void render(GuiGraphics guiGraphics, Font font, ItemStack stack, int x, int y, CallbackInfoReturnable<Boolean> cir) {
-        cir.cancel();
+        if (KeyMappings.INSTANCE.getState() != DisplayState.DISABLED) cir.cancel();
     }
 }

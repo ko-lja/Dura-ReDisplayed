@@ -87,13 +87,18 @@ repositories {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
     }
+    maven {
+        name "firstdarkdev"
+        url "https://maven.firstdarkdev.xyz/snapshots"
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
     implementation "thedarkcolour:kotlinforforge:$kff_version"
 
-    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$minecraft_version:$gtceu_version")
+    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$minecraft_version:$gtceu_version") { transitive = false }
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-$minecraft_version:$ldlib_version") { transitive = false }
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))
