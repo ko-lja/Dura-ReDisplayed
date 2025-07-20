@@ -1,8 +1,7 @@
 package lu.kolja.duradisp.mixins;
 
-import net.minecraft.client.gui.GuiGraphics;
-
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 

@@ -4,6 +4,7 @@
   "package": "lu.kolja.duradisp.mixins",
   "compatibilityLevel": "JAVA_17",
   "refmap": "duradisp.refmap.json",
+  "plugin": "lu.kolja.duradisp.MixinPlugin",
   "mixins": [
     "MixinGTToolBarRenderer"
   ],
