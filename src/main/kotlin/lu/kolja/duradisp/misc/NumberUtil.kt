@@ -1,11 +1,13 @@
 package lu.kolja.duradisp.misc
 
 import java.text.DecimalFormat
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.round
 
 object NumberUtil {
     private val SUFFIXES = arrayOf("", "K", "M", "B", "T", "P", "E", "Z", "Y")
+    private val DF = DecimalFormat("0.00E0")
 
     /**
      * Formats positive numbers with suffixes (K, M, B, T, etc.) with one decimal place.
@@ -52,4 +54,7 @@ object NumberUtil {
 
         return "$result%"
     }
+
+    fun formatScientific(value: Double) =
+        if (abs(value) < 1e3) value.toString().trimEnd('0').trimEnd('.') else DF.format(value).lowercase()
 }

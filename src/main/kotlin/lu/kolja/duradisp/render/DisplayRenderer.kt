@@ -33,6 +33,12 @@ class DisplayRenderer: IItemDecorator {
                     xPos, yPos
                 ) { NumberUtil.formatNumber(it.amount) }
             }
+            DisplayState.ENABLED_SCIENTIFIC -> {
+                renderActual(
+                    stack, guiGraphics, font,
+                    xPos, yPos
+                ) { NumberUtil.formatScientific(it.amount) }
+            }
             else -> false
         }
     }
