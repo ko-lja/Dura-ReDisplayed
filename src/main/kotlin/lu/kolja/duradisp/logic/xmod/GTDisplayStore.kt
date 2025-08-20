@@ -24,7 +24,7 @@ data class GTDisplayStore(val stack: ItemStack) {
                     val damage = stack.damageValue.toDouble()
                     val maxDamage = stack.maxDamage.toDouble()
                     val percentage = (maxDamage - damage) / maxDamage
-                    displayStore.add(DisplayStore(damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
+                    displayStore.add(DisplayStore(maxDamage - damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
                 }
                 if (item.isElectric) {
                     val charge = item.getCharge(stack).toDouble()
@@ -42,7 +42,7 @@ data class GTDisplayStore(val stack: ItemStack) {
                     val damage = stack.damageValue.toDouble()
                     val maxDamage = stack.maxDamage.toDouble()
                     val percentage = (maxDamage - damage) / maxDamage
-                    displayStore.add(DisplayStore(damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
+                    displayStore.add(DisplayStore(maxDamage - damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
                 }
                 val electricItem = GTCapabilityHelper.getElectricItem(stack)
                 if (electricItem != null) {

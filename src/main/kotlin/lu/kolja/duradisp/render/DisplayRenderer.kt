@@ -33,27 +33,27 @@ class DisplayRenderer: IItemDecorator {
                     xPos, yPos
                 ) { NumberUtil.formatNumber(it.amount) }
             }
-            else -> true
+            else -> false
         }
     }
 
     private fun renderActual(stack: ItemStack, guiGraphics: GuiGraphics, font: Font, xPos: Int, yPos: Int, text: (DisplayStore) -> String): Boolean {
         for (supplier in DisplayRegistry.DS) {
-            val store = supplier.get(stack)
-            if (store != null && store.isNotEmpty()) {
-                for (i in 0..store.size) {
-                    val store = store[i]
+            val displayStore = supplier.get(stack)
+            if (displayStore != null && displayStore.isNotEmpty()) {
+                for (i in 0..displayStore.size - 1) {
+                    val store = displayStore[i]
                     if (store.isActive) {
                         renderText(
                             guiGraphics, font,
                             text(store),
-                            xPos, yPos - i, store.color
+                            xPos, yPos - i * 4, store.color
                         )
                     }
                 }
             }
         }
-        return true
+        return false
     }
 
     fun renderText(graphics: GuiGraphics, font: Font, text: String, xPos: Int, yPos: Int, color: Int) {
@@ -64,9 +64,9 @@ class DisplayRenderer: IItemDecorator {
         poseStack.pushPose()
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.translate(0.0, 0.0, 500.0)
-        val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
-        font.drawInBatch(text, x.toFloat(), y.toFloat(), color, true, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880, false)
-        bufferSource.endBatch()
+        val buffersource = Minecraft.getInstance().renderBuffers().bufferSource()
+        font.drawInBatch(text, x.toFloat(), y.toFloat(), color, true, poseStack.last().pose(), buffersource, Font.DisplayMode.NORMAL, 0, 15728880, false)
+        buffersource.endBatch()
         poseStack.popPose()
     }
 }

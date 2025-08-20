@@ -19,6 +19,6 @@ public class MixinGTToolBarRenderer {
             cancellable = true
     )
     private void render(GuiGraphics guiGraphics, Font font, ItemStack stack, int x, int y, CallbackInfoReturnable<Boolean> cir) {
-        if (KeyMappings.INSTANCE.getState() != DisplayState.DISABLED) cir.cancel();
+        if (KeyMappings.INSTANCE.getState() != DisplayState.DISABLED) cir.setReturnValue(false);
     }
 }

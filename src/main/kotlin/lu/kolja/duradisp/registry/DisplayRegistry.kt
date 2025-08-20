@@ -1,11 +1,8 @@
 package lu.kolja.duradisp.registry
 
 import lu.kolja.duradisp.logic.DisplayStore
-import lu.kolja.duradisp.misc.Constants
-import lu.kolja.duradisp.registry.xmod.AE2
-import lu.kolja.duradisp.registry.xmod.GTCEU
+import lu.kolja.duradisp.logic.xmod.GTDisplayStore
 import net.minecraftforge.common.capabilities.ForgeCapabilities
-import net.minecraftforge.fml.ModList
 
 open class DisplayRegistry {
     companion object {
@@ -13,29 +10,31 @@ open class DisplayRegistry {
     }
 
     init {
-        ModList.get().run {
-            if (isLoaded("ae2")) AE2()
-            if (isLoaded("gtceu")) GTCEU()
-        }
         register {
-            if (it.isDamageableItem) {
-                val damage = it.damageValue.toDouble()
-                val maxDamage = it.maxDamage.toDouble()
-                val percentage = (maxDamage - damage) / maxDamage
-                return@register listOf(DisplayStore(maxDamage - damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
-            }
-            return@register null
+            if (it.item.getCreatorModId(it) != "gtceu") return@register null
+            val gtceu = GTDisplayStore.from(it)
+            return@register gtceu?.register()
         }
         register {
             val energyStorage = it.getCapability(ForgeCapabilities.ENERGY)
             if (energyStorage.isPresent) {
-                val energyStore = energyStorage.orElse(null)
+                val energyStorage1 = energyStorage.orElseThrow { NullPointerException() }
                 return@register listOf(DisplayStore(
-                    energyStore.energyStored.toDouble(),
-                    (energyStore.energyStored / energyStore.maxEnergyStored).toDouble(),
+                    if (it.item.getCreatorModId(it) == "ae2") (energyStorage1.energyStored / 2).toDouble() else energyStorage1.energyStored.toDouble(),
+                    (energyStorage1.energyStored / energyStorage1.maxEnergyStored).toDouble(),
                     it.item.getBarColor(it),
                     it.isBarVisible
                 ))
+            }
+            return@register null
+        }
+        register {
+            //if (Constants.GTCEU && GTDisplayStore.from(it) == null) return@register null
+            if (it.isDamageableItem) {
+                val damage = it.damageValue.toDouble()
+                val maxDamage = it.maxDamage.toDouble()
+                val percentage = (maxDamage - damage) / maxDamage
+                return@register listOf(DisplayStore(maxDamage - damage, percentage, it.barColor, true))
             }
             return@register null
         }

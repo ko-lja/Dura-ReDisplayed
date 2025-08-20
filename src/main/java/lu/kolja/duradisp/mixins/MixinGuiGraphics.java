@@ -17,6 +17,6 @@ public class MixinGuiGraphics {
             )
     )
     private boolean isBarVisible(boolean isVisible) {
-        return KeyMappings.INSTANCE.getState() == DisplayState.DISABLED;
+        return KeyMappings.INSTANCE.getState() == DisplayState.DISABLED && isVisible;
     }
 }
