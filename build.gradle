@@ -85,6 +85,19 @@ repositories {
         }
     }
     maven {
+        name "Modmaven"
+        url "https://modmaven.dev/"
+        content {
+            includeGroup 'appeng'
+        }
+    }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
     }
@@ -100,6 +113,8 @@ dependencies {
 
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$minecraft_version:$gtceu_version") { transitive = false }
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-$minecraft_version:$ldlib_version") { transitive = false }
+    implementation fg.deobf("appeng:appliedenergistics2-forge:$ae2_version")
+    implementation fg.deobf("curse.maven:guideme-1173950:6679102")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))

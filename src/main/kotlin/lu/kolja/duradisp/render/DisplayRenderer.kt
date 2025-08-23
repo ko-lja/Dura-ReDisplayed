@@ -1,6 +1,6 @@
 package lu.kolja.duradisp.render
 
-import lu.kolja.duradisp.enums.DisplayState
+import lu.kolja.duradisp.enums.DisplayState.*
 import lu.kolja.duradisp.logic.DisplayStore
 import lu.kolja.duradisp.misc.KeyMappings
 import lu.kolja.duradisp.misc.NumberUtil
@@ -19,21 +19,22 @@ class DisplayRenderer: IItemDecorator {
         xPos: Int,
         yPos: Int
     ): Boolean {
-        if (stack == null || stack.isEmpty || !stack.isBarVisible) return false
+        if (stack == null || stack.isEmpty)
+            return false
         return when (KeyMappings.state) {
-            DisplayState.ENABLED_PERCENTAGE -> {
+            ENABLED_PERCENTAGE -> {
                 renderActual(
                     stack, guiGraphics, font,
                     xPos, yPos
                 ) { NumberUtil.formatPercentage(it.percentage) }
             }
-            DisplayState.ENABLED_NUMBER -> {
+            ENABLED_NUMBER -> {
                 renderActual(
                     stack, guiGraphics, font,
                     xPos, yPos
                 ) { NumberUtil.formatNumber(it.amount) }
             }
-            DisplayState.ENABLED_SCIENTIFIC -> {
+            ENABLED_SCIENTIFIC -> {
                 renderActual(
                     stack, guiGraphics, font,
                     xPos, yPos
@@ -53,7 +54,7 @@ class DisplayRenderer: IItemDecorator {
                         renderText(
                             guiGraphics, font,
                             text(store),
-                            xPos, yPos - i * 4, store.color
+                            xPos, yPos - i * 5, store.color
                         )
                     }
                 }
@@ -70,9 +71,9 @@ class DisplayRenderer: IItemDecorator {
         poseStack.pushPose()
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.translate(0.0, 0.0, 500.0)
-        val buffersource = Minecraft.getInstance().renderBuffers().bufferSource()
-        font.drawInBatch(text, x.toFloat(), y.toFloat(), color, true, poseStack.last().pose(), buffersource, Font.DisplayMode.NORMAL, 0, 15728880, false)
-        buffersource.endBatch()
+        val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
+        font.drawInBatch(text, x.toFloat(), y.toFloat(), color, true, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880, false)
+        bufferSource.endBatch()
         poseStack.popPose()
     }
 }

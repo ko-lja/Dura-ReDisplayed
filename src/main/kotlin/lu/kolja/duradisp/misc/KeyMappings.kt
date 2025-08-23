@@ -13,11 +13,11 @@ import org.lwjgl.glfw.GLFW
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = [Dist.CLIENT])
 object KeyMappings {
-    const val CATEGORY = "key.categories.${MODID}"
+    const val CATEGORY = "key.categories.$MODID"
 
     val CLIENT_MAPPINGS by lazy {
         KeyMapping(
-            "key.${MODID}.switch_bar_display",
+            "key.$MODID.switch_bar_display",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_B,
             CATEGORY

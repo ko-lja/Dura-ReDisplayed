@@ -1,7 +1,9 @@
 package lu.kolja.duradisp.registry
 
+import appeng.items.AEBaseItem
 import lu.kolja.duradisp.logic.DisplayStore
 import lu.kolja.duradisp.logic.xmod.GTDisplayStore
+import lu.kolja.duradisp.misc.Constants
 import net.minecraftforge.common.capabilities.ForgeCapabilities
 
 open class DisplayRegistry {
@@ -20,7 +22,7 @@ open class DisplayRegistry {
             if (energyStorage.isPresent) {
                 val energyStorage1 = energyStorage.orElseThrow { NullPointerException() }
                 return@register listOf(DisplayStore(
-                    if (it.item.getCreatorModId(it) == "ae2") (energyStorage1.energyStored / 2).toDouble() else energyStorage1.energyStored.toDouble(),
+                    if (Constants.AE2 && it.item is AEBaseItem) (energyStorage1.energyStored / 2).toDouble() else energyStorage1.energyStored.toDouble(),
                     (energyStorage1.energyStored / energyStorage1.maxEnergyStored).toDouble(),
                     it.item.getBarColor(it),
                     it.isBarVisible
@@ -29,7 +31,7 @@ open class DisplayRegistry {
             return@register null
         }
         register {
-            //if (Constants.GTCEU && GTDisplayStore.from(it) == null) return@register null
+            if (Constants.GTCEU && GTDisplayStore.from(it) != null) return@register null
             if (it.isDamageableItem) {
                 val damage = it.damageValue.toDouble()
                 val maxDamage = it.maxDamage.toDouble()

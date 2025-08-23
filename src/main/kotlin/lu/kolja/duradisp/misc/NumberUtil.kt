@@ -7,7 +7,7 @@ import kotlin.math.round
 
 object NumberUtil {
     private val SUFFIXES = arrayOf("", "K", "M", "B", "T", "P", "E", "Z", "Y")
-    private val DF = DecimalFormat("0.00E0")
+    private val DF = DecimalFormat("0.0E0")
 
     /**
      * Formats positive numbers with suffixes (K, M, B, T, etc.) with one decimal place.

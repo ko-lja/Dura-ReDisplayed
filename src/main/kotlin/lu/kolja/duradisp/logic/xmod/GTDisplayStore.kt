@@ -1,6 +1,7 @@
 package lu.kolja.duradisp.logic.xmod
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper
+import com.gregtechceu.gtceu.api.capability.IElectricItem
 import com.gregtechceu.gtceu.api.item.IComponentItem
 import com.gregtechceu.gtceu.api.item.IGTTool
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar
@@ -11,7 +12,10 @@ import net.minecraft.world.item.ItemStack
 data class GTDisplayStore(val stack: ItemStack) {
     companion object{
         fun from(stack: ItemStack): GTDisplayStore? {
-            return if (stack.item is IGTTool || stack.item is IComponentItem) GTDisplayStore(stack) else null
+            return if (stack.item is IGTTool
+                || stack.item is IComponentItem
+                || stack.item is IElectricItem)
+                GTDisplayStore(stack) else null
         }
     }
 
@@ -19,6 +23,13 @@ data class GTDisplayStore(val stack: ItemStack) {
         val displayStore = mutableListOf<DisplayStore>()
         val item = stack.item
         when (item) {
+            is IElectricItem -> {
+                val charge = item.charge.toDouble()
+                val maxCharge = item.maxCharge.toDouble()
+                val percentage = charge / maxCharge
+                displayStore.add(DisplayStore(charge, percentage, Constants.BAR_ENERGY_COLOR, true))
+                return displayStore
+            }
             is IGTTool -> {
                 if (stack.isDamageableItem) {
                     val damage = stack.damageValue.toDouble()

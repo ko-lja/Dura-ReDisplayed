@@ -6,7 +6,7 @@
   "refmap": "duradisp.refmap.json",
   "plugin": "lu.kolja.duradisp.MixinPlugin",
   "mixins": [
-    "MixinGTToolBarRenderer"
+    "MixinToolChargeBarRenderer"
   ],
   "client": [
     "MixinGuiGraphics"
