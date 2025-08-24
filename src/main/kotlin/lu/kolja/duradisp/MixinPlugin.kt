@@ -22,7 +22,7 @@ class MixinPlugin: IMixinConfigPlugin {
     override fun getRefMapperConfig() = null
 
     override fun shouldApplyMixin(targetClassName: String, mixinClassName: String) = when(mixinClassName) {
-        "lu.kolja.duradisp.mixins.MixinGTToolBarRenderer" -> isModLoaded("gtceu")
+        "lu.kolja.duradisp.mixins.ToolChargeBarRenderer" -> isModLoaded("gtceu")
         else -> true
     }
 
