@@ -2,6 +2,7 @@ package lu.kolja.duradisp.misc
 
 import com.mojang.blaze3d.platform.InputConstants
 import lu.kolja.duradisp.Duradisp.Companion.MODID
+import lu.kolja.duradisp.ModConfig
 import lu.kolja.duradisp.enums.DisplayState
 import net.minecraft.client.KeyMapping
 import net.minecraftforge.api.distmarker.Dist
@@ -29,15 +30,13 @@ object KeyMappings {
         event.register(CLIENT_MAPPINGS)
     }
 
-    var state = DisplayState.DISABLED
-
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = [Dist.CLIENT])
     object ForgeClient {
         @SubscribeEvent
         fun onClientTick(event: TickEvent.ClientTickEvent) {
             if (event.phase != TickEvent.Phase.END) return
             while (CLIENT_MAPPINGS.consumeClick()) {
-                state = DisplayState.getNext()
+                ModConfig.setDisplayState(DisplayState.getNext().configVal)
             }
         }
     }
