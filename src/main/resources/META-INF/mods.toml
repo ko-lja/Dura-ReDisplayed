@@ -30,6 +30,6 @@ side = "BOTH"
 [[dependencies."${mod_id}"]]
 modId = "configuration"
 mandatory = true
-versionRange = "${configuration_version}"
+versionRange = "[3.0, ${configuration_version}]"
 ordering = "BEFORE"
 side = "CLIENT"
