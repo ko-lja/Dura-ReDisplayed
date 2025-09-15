@@ -16,6 +16,7 @@ class Duradisp {
 
     init {
         DisplayRegistry()
+        ModConfig.init()
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = [Dist.CLIENT])
