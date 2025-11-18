@@ -14,9 +14,19 @@ object DuradispConfig {
         .comment("Format to display durability/energy in")
         .defineEnum("displayState", DisplayState.DISABLED)
 
+    private var BUCKET_RENDER: ForgeConfigSpec.BooleanValue = builder
+        .comment("Render the fullness of the bucket")
+        .define("bucketRender", false)
+
+    private var OUTLINE: ForgeConfigSpec.BooleanValue = builder
+        .comment("Render a black outline around the text")
+        .define("outline", true)
+
     val spec: ForgeConfigSpec = builder.build()
 
     private lateinit var displayState: DisplayState
+    var bucketRender = false
+    var outline = true
 
     @JvmStatic
     fun getDisplayState() = displayState
@@ -31,6 +41,8 @@ object DuradispConfig {
         event.apply {
             displayState = DISPLAY_STATE.get()
             DisplayState.index = displayState.ordinal
+            bucketRender = BUCKET_RENDER.get()
+            outline = OUTLINE.get()
         }
     }
 }

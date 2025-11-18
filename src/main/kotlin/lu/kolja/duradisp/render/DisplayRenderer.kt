@@ -3,9 +3,9 @@ package lu.kolja.duradisp.render
 import lu.kolja.duradisp.DuradispConfig
 import lu.kolja.duradisp.enums.DisplayState.*
 import lu.kolja.duradisp.logic.DisplayStore
+import lu.kolja.duradisp.misc.Constants.OUTLINE
 import lu.kolja.duradisp.misc.NumberUtil
 import lu.kolja.duradisp.registry.DisplayRegistry
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.world.item.ItemStack
@@ -64,6 +64,7 @@ class DisplayRenderer: IItemDecorator {
     }
 
     fun renderText(graphics: GuiGraphics, font: Font, text: String, xPos: Int, yPos: Int, color: Int) {
+
         val poseStack = graphics.pose()
         val stringWidth = font.width(text)
         val x = (xPos + 8) * 2 + 1 + stringWidth / 2 - stringWidth
@@ -71,9 +72,15 @@ class DisplayRenderer: IItemDecorator {
         poseStack.pushPose()
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.translate(0.0, 0.0, 500.0)
-        val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
-        graphics.drawString(font, text, x.toFloat(), y.toFloat(), color, true)
-        bufferSource.endBatch()
+        if (DuradispConfig.outline) renderOutline(graphics, font, text, x, y)
+        graphics.drawString(font, text, x, y, color, true)
         poseStack.popPose()
+    }
+
+    fun renderOutline(graphics: GuiGraphics, font: Font, text: String, x: Int, y: Int) {
+        graphics.drawString(font, text, x + 1, y, OUTLINE, true)
+        graphics.drawString(font, text, x - 1, y, OUTLINE, true)
+        graphics.drawString(font, text, x, y + 1, OUTLINE, true)
+        graphics.drawString(font, text, x, y - 1, OUTLINE, true)
     }
 }

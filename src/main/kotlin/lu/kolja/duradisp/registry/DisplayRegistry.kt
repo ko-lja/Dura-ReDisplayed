@@ -1,9 +1,11 @@
 package lu.kolja.duradisp.registry
 
+import lu.kolja.duradisp.DuradispConfig
 import lu.kolja.duradisp.logic.DisplayStore
 import lu.kolja.duradisp.logic.xmod.AEDisplayStore
 import lu.kolja.duradisp.logic.xmod.GTDisplayStore
 import lu.kolja.duradisp.misc.Constants
+import net.minecraft.world.item.BucketItem
 import net.minecraftforge.common.capabilities.ForgeCapabilities
 
 open class DisplayRegistry {
@@ -48,6 +50,20 @@ open class DisplayRegistry {
                 return@register listOf(DisplayStore(maxDamage - damage, percentage, it.barColor, true))
             }
             return@register null
+        }
+        register {
+            if (!DuradispConfig.bucketRender && it.item is BucketItem) return@register null
+            val optional = it.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).resolve()
+            if (optional.isEmpty) return@register null
+            val fluidHandler = optional.get()
+            val list = mutableListOf<DisplayStore>()
+            for (i in 0..<fluidHandler.tanks) {
+                val amount = fluidHandler.getFluidInTank(i).amount.toDouble()
+                val capacity = fluidHandler.getTankCapacity(i).toDouble()
+                val percentage = amount / capacity
+                list.add(DisplayStore(amount, percentage, Constants.BAR_FLUID_COLOR, true))
+            }
+            return@register list
         }
     }
 
