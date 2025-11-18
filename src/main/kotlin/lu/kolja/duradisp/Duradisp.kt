@@ -6,7 +6,9 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.registries.ForgeRegistries
+import thedarkcolour.kotlinforforge.forge.registerConfig
 
 @Mod(Duradisp.MODID)
 class Duradisp {
@@ -16,7 +18,7 @@ class Duradisp {
 
     init {
         DisplayRegistry()
-        ModConfig.init()
+        registerConfig(ModConfig.Type.CLIENT, DuradispConfig.spec)
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = [Dist.CLIENT])

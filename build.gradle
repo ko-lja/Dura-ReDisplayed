@@ -105,10 +105,6 @@ repositories {
         name "firstdarkdev"
         url "https://maven.firstdarkdev.xyz/snapshots"
     }
-    maven {
-        name = 'Toma Maven'
-        url "https://api.repsy.io/mvn/toma/public/"
-    }
 }
 
 dependencies {
@@ -119,7 +115,6 @@ dependencies {
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-$minecraft_version:$ldlib_version") { transitive = false }
     implementation fg.deobf("appeng:appliedenergistics2-forge:$ae2_version")
     implementation fg.deobf("curse.maven:guideme-1173950:6679102")
-    implementation "dev.toma.configuration:configuration-$minecraft_version:$configuration_version-forge"
 
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

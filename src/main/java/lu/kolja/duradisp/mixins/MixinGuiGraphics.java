@@ -1,7 +1,7 @@
 package lu.kolja.duradisp.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import lu.kolja.duradisp.ModConfig;
+import lu.kolja.duradisp.DuradispConfig;
 import lu.kolja.duradisp.enums.DisplayState;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +18,6 @@ public class MixinGuiGraphics {
     )
 
     private boolean isBarVisible(boolean isVisible) {
-        return ModConfig.getDisplayState() == DisplayState.DISABLED && isVisible;
+        return DuradispConfig.getDisplayState() == DisplayState.DISABLED && isVisible;
     }
 }

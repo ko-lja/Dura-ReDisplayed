@@ -2,7 +2,7 @@ package lu.kolja.duradisp.mixins;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 import com.gregtechceu.gtceu.client.renderer.item.ToolChargeBarRenderer;
-import lu.kolja.duradisp.ModConfig;
+import lu.kolja.duradisp.DuradispConfig;
 import lu.kolja.duradisp.enums.DisplayState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +35,6 @@ public class MixinToolChargeBarRenderer {
 
     @Unique
     private static boolean duradisp$shouldRender() {
-        return ModConfig.getDisplayState() != DisplayState.DISABLED;
+        return DuradispConfig.getDisplayState() != DisplayState.DISABLED;
     }
 }

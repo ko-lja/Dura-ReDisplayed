@@ -1,6 +1,6 @@
 package lu.kolja.duradisp.render
 
-import lu.kolja.duradisp.ModConfig
+import lu.kolja.duradisp.DuradispConfig
 import lu.kolja.duradisp.enums.DisplayState.*
 import lu.kolja.duradisp.logic.DisplayStore
 import lu.kolja.duradisp.misc.NumberUtil
@@ -21,7 +21,7 @@ class DisplayRenderer: IItemDecorator {
     ): Boolean {
         if (stack == null || stack.isEmpty)
             return false
-        return when (ModConfig.getDisplayState()) {
+        return when (DuradispConfig.getDisplayState()) {
             ENABLED_PERCENTAGE -> {
                 renderActual(
                     stack, guiGraphics, font,
@@ -72,7 +72,7 @@ class DisplayRenderer: IItemDecorator {
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.translate(0.0, 0.0, 500.0)
         val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
-        font.drawInBatch(text, x.toFloat(), y.toFloat(), color, true, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880, false)
+        graphics.drawString(font, text, x.toFloat(), y.toFloat(), color, true)
         bufferSource.endBatch()
         poseStack.popPose()
     }
