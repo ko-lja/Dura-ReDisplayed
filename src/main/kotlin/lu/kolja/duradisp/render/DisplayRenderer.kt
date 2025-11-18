@@ -64,7 +64,6 @@ class DisplayRenderer: IItemDecorator {
     }
 
     fun renderText(graphics: GuiGraphics, font: Font, text: String, xPos: Int, yPos: Int, color: Int) {
-
         val poseStack = graphics.pose()
         val stringWidth = font.width(text)
         val x = (xPos + 8) * 2 + 1 + stringWidth / 2 - stringWidth
