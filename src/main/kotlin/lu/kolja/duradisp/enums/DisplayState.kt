@@ -1,10 +1,10 @@
 package lu.kolja.duradisp.enums
 
-enum class DisplayState {
-    DISABLED,
-    ENABLED_PERCENTAGE,
-    ENABLED_NUMBER,
-    ENABLED_SCIENTIFIC;
+enum class DisplayState(val configVal: String) {
+    DISABLED("vanilla"),
+    ENABLED_PERCENTAGE("percentage"),
+    ENABLED_NUMBER("number"),
+    ENABLED_SCIENTIFIC("scientific");
 
     companion object {
         private var index = 0

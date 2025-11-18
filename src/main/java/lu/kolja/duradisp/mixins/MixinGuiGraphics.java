@@ -1,8 +1,8 @@
 package lu.kolja.duradisp.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import lu.kolja.duradisp.ModConfig;
 import lu.kolja.duradisp.enums.DisplayState;
-import lu.kolja.duradisp.misc.KeyMappings;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +16,8 @@ public class MixinGuiGraphics {
                     target = "Lnet/minecraft/world/item/ItemStack;isBarVisible()Z"
             )
     )
+
     private boolean isBarVisible(boolean isVisible) {
-        return KeyMappings.INSTANCE.getState() == DisplayState.DISABLED && isVisible;
+        return ModConfig.getDisplayState() == DisplayState.DISABLED && isVisible;
     }
 }

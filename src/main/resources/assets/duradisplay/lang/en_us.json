@@ -1,0 +1,7 @@
+{
+  "key.categories.duradisp": "Dura: ReDisplayed",
+  "key.duradisp.switch_bar_display": "Switch Display Format",
+  "config.screen.duradisp": "Dura: ReDisplayed Config",
+  "config.duradisp.option.displayState": "Display State Format",
+  "config.duradisp.option.displayState.comment.0": "Format to display durability in (percentage, number, scientific, vanilla)"
+}

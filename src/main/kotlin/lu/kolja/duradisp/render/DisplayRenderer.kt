@@ -1,8 +1,8 @@
 package lu.kolja.duradisp.render
 
+import lu.kolja.duradisp.ModConfig
 import lu.kolja.duradisp.enums.DisplayState.*
 import lu.kolja.duradisp.logic.DisplayStore
-import lu.kolja.duradisp.misc.KeyMappings
 import lu.kolja.duradisp.misc.NumberUtil
 import lu.kolja.duradisp.registry.DisplayRegistry
 import net.minecraft.client.Minecraft
@@ -21,7 +21,7 @@ class DisplayRenderer: IItemDecorator {
     ): Boolean {
         if (stack == null || stack.isEmpty)
             return false
-        return when (KeyMappings.state) {
+        return when (ModConfig.getDisplayState()) {
             ENABLED_PERCENTAGE -> {
                 renderActual(
                     stack, guiGraphics, font,
