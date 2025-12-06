@@ -13,10 +13,8 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "2.0.20"
     id 'eclipse'
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'net.neoforged.moddev.legacyforge' version '2.0.91'
 }
-
-apply plugin: 'org.spongepowered.mixin'
 
 group = mod_group_id
 version = mod_version
@@ -29,52 +27,67 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
-minecraft {
-
-    mappings channel: mapping_channel, version: mapping_version
-    copyIdeResources = true
+legacyForge {
+    version = project.minecraft_version + '-' + project.forge_version
 
     runs {
         configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            gameDirectory = project.file('run')
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
 
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
+
         }
 
         client {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            jvmArg("-XX:+AllowEnhancedClassRedefinition")
+            client()
+            sourceSet = sourceSets.main
+
+
+            jvmArgument "-XX:+AllowEnhancedClassRedefinition"
+            systemProperty 'forge.enabledGameTestNamespaces', mod_id
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            systemProperty 'forge.enabledGameTestNamespaces', 'expandedae'
         }
 
         server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
-        }
-        gameTestServer {
-            property 'forge.enabledGameTestNamespaces', mod_id
+            server()
+            sourceSet = sourceSets.main
+
+            systemProperty 'forge.enabledGameTestNamespaces', mod_id
+            programArguments.addAll('--nogui', '--world', 'world-extra')
         }
 
         data {
-            workingDirectory project.file('run-data')
+            data()
 
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            sourceSet = sourceSets.main
+
+            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath())
+            programArguments.addAll('--existing-mod', 'ae2')
+        }
+    }
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
         }
     }
 }
 
 mixin {
-    add sourceSets.main, "${mod_id}.refmap.json"
+    add sourceSets.main, "${mod_id}.mixins.refmap.json"
 
     config "${mod_id}.mixins.json"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+sourceSets {
+    main {
+        ext.refMap = "${mod_id}.mixins.refmap.json"
+    }
+}
 
 repositories {
     maven {
@@ -108,20 +121,17 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
     implementation "thedarkcolour:kotlinforforge:$kff_version"
 
-    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$minecraft_version:$gtceu_version") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-$minecraft_version:$ldlib_version") { transitive = false }
-    implementation fg.deobf("appeng:appliedenergistics2-forge:$ae2_version")
-    implementation fg.deobf("curse.maven:guideme-1173950:6679102")
+    modImplementation("com.gregtechceu.gtceu:gtceu-$minecraft_version:$gtceu_version") { transitive = false }
+    modImplementation("com.lowdragmc.ldlib:ldlib-forge-$minecraft_version:$ldlib_version") { transitive = false }
+    modImplementation "appeng:appliedenergistics2-forge:$ae2_version"
+    modImplementation "curse.maven:guideme-1173950:6679102"
 
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinextras_version"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixinextras_version")) {
-        jarJar.ranged(it as Dependency, "[$mixinextras_version,)")
-    }
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:$mixinextras_version"))
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -155,4 +165,12 @@ tasks.named('jar', Jar).configure {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+jar {
+    manifest {
+        attributes([
+                "MixinConfigs": "${mod_id}.mixins.json"
+        ])
+    }
 }

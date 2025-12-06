@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = GuiGraphics.class)
+@Mixin(GuiGraphics.class)
 public class MixinGuiGraphics {
     @ModifyExpressionValue(
             method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V",
@@ -16,7 +16,6 @@ public class MixinGuiGraphics {
                     target = "Lnet/minecraft/world/item/ItemStack;isBarVisible()Z"
             )
     )
-
     private boolean isBarVisible(boolean isVisible) {
         return DuradispConfig.getDisplayState() == DisplayState.DISABLED && isVisible;
     }
