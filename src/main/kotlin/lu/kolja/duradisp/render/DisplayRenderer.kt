@@ -50,6 +50,7 @@ class DisplayRenderer: IItemDecorator {
             if (displayStore != null && displayStore.isNotEmpty()) {
                 for (i in 0..displayStore.size - 1) {
                     val store = displayStore[i]
+                    store.isActive = !(DuradispConfig.hideWhenFull && store.percentage == 1.0)
                     if (store.isActive) {
                         renderText(
                             guiGraphics, font,

@@ -22,11 +22,16 @@ object DuradispConfig {
         .comment("Render a black outline around the text")
         .define("outline", true)
 
+    private var HIDE_WHEN_FULL: ForgeConfigSpec.BooleanValue = builder
+        .comment("Hide the render when the amount is maxed out")
+        .define("hideWhenFull", false)
+
     val spec: ForgeConfigSpec = builder.build()
 
     private lateinit var displayState: DisplayState
     var bucketRender = false
     var outline = true
+    var hideWhenFull = false
 
     @JvmStatic
     fun getDisplayState() = displayState
@@ -43,6 +48,7 @@ object DuradispConfig {
             DisplayState.index = displayState.ordinal
             bucketRender = BUCKET_RENDER.get()
             outline = OUTLINE.get()
+            hideWhenFull = HIDE_WHEN_FULL.get()
         }
     }
 }
