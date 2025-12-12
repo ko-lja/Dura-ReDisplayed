@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.capability.IElectricItem
 import com.gregtechceu.gtceu.api.item.IComponentItem
 import com.gregtechceu.gtceu.api.item.IGTTool
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar
+import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour
 import lu.kolja.duradisp.logic.DisplayStore
 import lu.kolja.duradisp.misc.Constants
 import net.minecraft.world.item.ItemStack
@@ -49,14 +50,22 @@ data class GTDisplayStore(val stack: ItemStack) {
                 var bar: IDurabilityBar? = null
                 for (component in item.components)
                     if (component is IDurabilityBar) bar = component
-                if (bar != null) {
+                val turbineBehavior = TurbineRotorBehaviour.getBehaviour(stack)
+                turbineBehavior?.let {
+                    val damage = turbineBehavior.getDamage(stack).toDouble()
+                    val maxDamage = turbineBehavior.getMaxDurability(stack).toDouble()
+                    val percentage = (maxDamage - damage) / maxDamage
+                    displayStore.add(DisplayStore(maxDamage - damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
+                    return displayStore // early return because yes
+                }
+                bar?.let {
                     val damage = stack.damageValue.toDouble()
                     val maxDamage = stack.maxDamage.toDouble()
                     val percentage = (maxDamage - damage) / maxDamage
                     displayStore.add(DisplayStore(maxDamage - damage, percentage, Constants.BAR_DURABILITY_COLOR, true))
                 }
                 val electricItem = GTCapabilityHelper.getElectricItem(stack)
-                if (electricItem != null) {
+                electricItem?.let {
                     val charge = electricItem.charge.toDouble()
                     val maxCharge = electricItem.maxCharge.toDouble()
                     val percentage = charge / maxCharge
